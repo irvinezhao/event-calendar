@@ -236,7 +236,6 @@
 					details.appendChild(arrow);
 					let calendarEl = document.getElementById('calendar')
 					calendarEl.appendChild(details);
-					console.log(el, calendarEl.offsetHeight / 2,el.offsetHeight > (calendarEl.offsetHeight / 2))
 					details.style.top = el.offsetTop + 51 + 'px'
 				}
 
@@ -286,12 +285,16 @@
 
 
 			Calendar.prototype.nextMonth = function () {
+				let calendarEl = document.getElementById('calendar')
+				calendarEl.removeChild(document.querySelector('.details'))
 				this.current.add('months', 1);
 				this.next = true;
 				this.draw();
 			}
 
 			Calendar.prototype.prevMonth = function () {
+				let calendarEl = document.getElementById('calendar')
+				calendarEl.removeChild(document.querySelector('.details'))
 				this.current.subtract('months', 1);
 				this.next = false;
 				this.draw();
