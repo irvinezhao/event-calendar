@@ -145,11 +145,11 @@
 				//Outer Day
 				var outer = createElement('div', this.getDayClass(day));
 				outer.addEventListener('click', function () {
-					if(!showEventDetails || oldDayEl!== this) {
+					if (!showEventDetails || oldDayEl !== this) {
 						self.openDay(this);
 						showEventDetails = true
 					} else {
-						this.parentNode.removeChild(document.querySelector('.details'))
+						this.parentNode && this.parentNode.removeChild(document.querySelector('.details'))
 						showEventDetails = false
 					}
 					oldDayEl = this
@@ -198,8 +198,18 @@
 				var details, arrow;
 				var dayNumber = +el.querySelectorAll('.day-number')[0].innerText || +el.querySelectorAll('.day-number')[0].textContent;
 				var day = this.current.clone().date(dayNumber);
+				var todaysEvents = this.events.reduce(function (memo, ev) {
+					if (ev.date.isSame(day, 'day')) {
+						memo.push(ev);
+					}
+					return memo;
+				}, []);
 
 				var currentOpened = document.querySelector('.details');
+				if (todaysEvents.length < 1) {
+					currentOpened && currentOpened.parentNode.removeChild(currentOpened);
+					return
+				}
 
 				//Check to see if there is an open detais box on the current row
 				if (currentOpened && currentOpened.parentNode === el.parentNode) {
@@ -207,7 +217,7 @@
 					arrow = document.querySelector('.arrow');
 				} else {
 					//Close the open events on differnt week row
-					//currentOpened && currentOpened.parentNode.removeChild(currentOpened);
+					currentOpened && currentOpened.parentNode.removeChild(currentOpened);
 					if (currentOpened) {
 						currentOpened.addEventListener('webkitAnimationEnd', function () {
 							currentOpened.parentNode.removeChild(currentOpened);
@@ -223,7 +233,6 @@
 						});
 						currentOpened.className = 'details out';
 					}
-
 					//Create the Details Container
 					details = createElement('div', 'details in');
 
@@ -231,21 +240,11 @@
 					var arrow = createElement('div', 'arrow');
 
 					//Create the event wrapper
-
 					details.appendChild(arrow);
-					// TODO: dont show the empty window
-					// let aa = details.classList
-					// console.log(details.children)
 					el.parentNode.appendChild(details);
 				}
 
-				var todaysEvents = this.events.reduce(function (memo, ev) {
-					if (ev.date.isSame(day, 'day')) {
-						memo.push(ev);
-					}
-					return memo;
-				}, []);
-
+				
 				this.renderEvents(todaysEvents, details);
 
 				arrow.style.left = el.offsetLeft - el.parentNode.offsetLeft + 27 + 'px';
@@ -265,14 +264,6 @@
 					div.appendChild(span);
 					wrapper.appendChild(div);
 				});
-
-				if (!events.length) {
-					var div = createElement('div', 'event empty');
-					var span = createElement('span', '', 'No Events');
-
-					div.appendChild(span);
-					wrapper.appendChild(div);
-				}
 
 				if (currentWrapper) {
 					currentWrapper.className = 'events out';
@@ -297,22 +288,6 @@
 				}
 			}
 
-			// Calendar.prototype.drawLegend = function () {
-			// 	var legend = createElement('div', 'legend');
-			// 	var calendars = this.events.map(function (e) {
-			// 		return e.calendar + '|' + e.color;
-			// 	}).reduce(function (memo, e) {
-			// 		if (memo.indexOf(e) === -1) {
-			// 			memo.push(e);
-			// 		}
-			// 		return memo;
-			// 	}, []).forEach(function (e) {
-			// 		var parts = e.split('|');
-			// 		var entry = createElement('span', 'entry ' + parts[1], parts[0]);
-			// 		legend.appendChild(entry);
-			// 	});
-			// 	this.el.appendChild(legend);
-			// }
 
 			Calendar.prototype.nextMonth = function () {
 				this.current.add('months', 1);
