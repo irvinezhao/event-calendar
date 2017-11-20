@@ -22,6 +22,10 @@
 				this.drawWeekTitle();
 				//Draw Month
 				this.drawMonth();
+				if(document.querySelector('.details')) {
+					let calendarEl = document.getElementById('calendar')
+					calendarEl.removeChild(document.querySelector('.details'))
+				}
 			}
 
 			Calendar.prototype.drawHeader = function () {
@@ -285,16 +289,12 @@
 
 
 			Calendar.prototype.nextMonth = function () {
-				let calendarEl = document.getElementById('calendar')
-				calendarEl.removeChild(document.querySelector('.details'))
 				this.current.add('months', 1);
 				this.next = true;
 				this.draw();
 			}
 
 			Calendar.prototype.prevMonth = function () {
-				let calendarEl = document.getElementById('calendar')
-				calendarEl.removeChild(document.querySelector('.details'))
 				this.current.subtract('months', 1);
 				this.next = false;
 				this.draw();

@@ -50,13 +50,13 @@
 .left {
   border-width: 7.5px 10px 7.5px 0;
   border-color: transparent rgba(160, 159, 160, 1) transparent transparent;
-  left: 20px;
+  left: 50px;
 }
 
 .right {
   border-width: 7.5px 0 7.5px 10px;
   border-color: transparent transparent transparent rgba(160, 159, 160, 1);
-  right: 20px;
+  right: 50px;
 }
 
 .week-title-item {
