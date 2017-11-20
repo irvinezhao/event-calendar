@@ -56,7 +56,11 @@
 				if (!this.weekTitle) {
 					//Create the week title elements
 					this.weekTitle = createElement('div', 'week-title');
-					this.weekTitle.innerHTML = weekTitle.map(i => { return `<span class='week-title-item'>${i}</span>` }).toString().replace(/,/g, "")
+					// IE dont dupport arrow func :(((((
+					// this.weekTitle.innerHTML = weekTitle.map(i => { return `<span class='week-title-item'>${i}</span>` }).toString().replace(/,/g, "")
+					this.weekTitle.innerHTML = weekTitle.map(function (i) {
+						return "<span class='week-title-item'>" + i + "</span>";
+					  }).toString().replace(/,/g, "");
 					this.el.appendChild(this.weekTitle);
 				}
 			}
