@@ -13,13 +13,6 @@
 				this.events = events;
 				this.current = moment().date(1);
 				this.draw();
-				// var current = document.querySelector('.today');
-				// if (current) {
-				// 	var self = this;
-				// 	window.setTimeout(function () {
-				// 		self.openDay(current);
-				// 	}, 500);
-				// }
 			}
 
 			Calendar.prototype.draw = function () {
@@ -27,7 +20,6 @@
 				this.drawHeader();
 				//Create Week Title
 				this.drawWeekTitle();
-
 				//Draw Month
 				this.drawMonth();
 			}
@@ -53,7 +45,6 @@
 					this.header.appendChild(right);
 					this.el.appendChild(this.header);
 				}
-
 				this.title.innerHTML = this.current.format('MMMM YYYY');
 			}
 
@@ -149,7 +140,8 @@
 						self.openDay(this);
 						showEventDetails = true
 					} else {
-						this.parentNode && this.parentNode.removeChild(document.querySelector('.details'))
+						let calendarEl = document.getElementById('calendar')
+						calendarEl.removeChild(document.querySelector('.details'))
 						showEventDetails = false
 					}
 					oldDayEl = this
@@ -206,7 +198,8 @@
 				}, []);
 
 				var currentOpened = document.querySelector('.details');
-				if (todaysEvents.length < 1) {
+				// sat and sun no event and no open
+				if (todaysEvents.length < 1 || day.format('ddd') === 'Sat' || day.format('ddd') === 'Sun') {
 					currentOpened && currentOpened.parentNode.removeChild(currentOpened);
 					return
 				}
@@ -241,12 +234,14 @@
 
 					//Create the event wrapper
 					details.appendChild(arrow);
-					el.parentNode.appendChild(details);
+					let calendarEl = document.getElementById('calendar')
+					calendarEl.appendChild(details);
+					console.log(el, calendarEl.offsetHeight / 2,el.offsetHeight > (calendarEl.offsetHeight / 2))
+					details.style.top = el.offsetTop + 51 + 'px'
 				}
 
-				
-				this.renderEvents(todaysEvents, details);
 
+				this.renderEvents(todaysEvents, details);
 				arrow.style.left = el.offsetLeft - el.parentNode.offsetLeft + 27 + 'px';
 			}
 
@@ -257,11 +252,12 @@
 
 				events.forEach(function (ev) {
 					var div = createElement('div', 'event');
-					var square = createElement('div', 'event-category ' + ev.color);
-					var span = createElement('span', '', ev.eventName);
-
-					div.appendChild(square);
-					div.appendChild(span);
+					var eventCategoryTitleEl = createElement('div', 'event-category ' + ev.color);
+					var eventDetails = createElement('div', 'event-details-text', ev.eventDetailsText);
+					var eventCategoryTitleText = createElement('span', 'event-caregory-text', ev.type)
+					eventCategoryTitleEl.appendChild(eventCategoryTitleText)
+					div.appendChild(eventCategoryTitleEl);
+					div.appendChild(eventDetails);
 					wrapper.appendChild(div);
 				});
 
@@ -317,25 +313,29 @@
 
 		!function () {
 			var events = [
-				{ eventName: 'Lunch Meeting w/ Mark', type: 'Work', color: 'orange' },
-				{ eventName: 'Interview - Jr. Web Developer', type: 'Work', color: 'orange' },
-				{ eventName: 'Demo New App to the Board', type: 'Work', color: 'orange' },
-				{ eventName: 'Dinner w/ Marketing', type: 'Work', color: 'orange' },
+				{ eventDetailsText: 'Stock Futures Last Trading Day/Expiry Day', type: 'Trading Operations', color: 'gray' },
+				{ eventDetailsText: 'Stock Futures Last Trading Day/Expiry Day', type: 'Trading Operations', color: 'gray' },
+				{ eventDetailsText: 'Stock Futures Last Trading Day/Expiry Day', type: 'Trading Operations', color: 'gray' },
+				{ eventDetailsText: 'Stock Futures Last Trading Day/Expiry Day', type: 'Trading Operations', color: 'gray' },
+				{ eventDetailsText: 'Stock Futures Last Trading Day/Expiry Day', type: 'Trading Operations', color: 'gray' },
 
-				{ eventName: 'Game vs Portalnd', type: 'Sports', color: 'blue' },
-				{ eventName: 'Game vs Houston', type: 'Sports', color: 'blue' },
-				{ eventName: 'Game vs Denver', type: 'Sports', color: 'blue' },
-				{ eventName: 'Game vs San Degio', type: 'Sports', color: 'blue' },
+				{ eventDetailsText: 'Featured: OTC Derivatives Clearing -- Preparing the ground for the derivatives deadline', type: 'IPO LISTING DATE', color: 'orange' },
+				{ eventDetailsText: 'Featured: OTC Derivatives Clearing -- Preparing the ground for the derivatives deadline', type: 'IPO LISTING DATE', color: 'orange' },
+				{ eventDetailsText: 'Featured: OTC Derivatives Clearing -- Preparing the ground for the derivatives deadline', type: 'IPO LISTING DATE', color: 'orange' },
+				{ eventDetailsText: 'Featured: OTC Derivatives Clearing -- Preparing the ground for the derivatives deadline', type: 'IPO LISTING DATE', color: 'orange' },
+				{ eventDetailsText: 'Featured: OTC Derivatives Clearing -- Preparing the ground for the derivatives deadline', type: 'IPO LISTING DATE', color: 'orange' },
 
-				{ eventName: 'School Play', type: 'Kids', color: 'yellow' },
-				{ eventName: 'Parent/Teacher Conference', type: 'Kids', color: 'yellow' },
-				{ eventName: 'Pick up from Soccer Practice', type: 'Kids', color: 'yellow' },
-				{ eventName: 'Ice Cream Night', type: 'Kids', color: 'yellow' },
+				{ eventDetailsText: 'H-Shars Index Futures and Options (Including Flexible Index Options) Last Trading Day/Expiry Day', type: 'HKEX EVENTS', color: 'green' },
+				{ eventDetailsText: 'H-Shars Index Futures and Options (Including Flexible Index Options) Last Trading Day/Expiry Day', type: 'HKEX EVENTS', color: 'green' },
+				{ eventDetailsText: 'H-Shars Index Futures and Options (Including Flexible Index Options) Last Trading Day/Expiry Day', type: 'HKEX EVENTS', color: 'green' },
+				{ eventDetailsText: 'H-Shars Index Futures and Options (Including Flexible Index Options) Last Trading Day/Expiry Day', type: 'HKEX EVENTS', color: 'green' },
+				{ eventDetailsText: 'H-Shars Index Futures and Options (Including Flexible Index Options) Last Trading Day/Expiry Day', type: 'HKEX EVENTS', color: 'green' },
 
-				{ eventName: 'Free Tamale Night', type: 'Other', color: 'green' },
-				{ eventName: 'Bowling Team', type: 'Other', color: 'green' },
-				{ eventName: 'Teach Kids to Code', type: 'Other', color: 'green' },
-				{ eventName: 'Startup Weekend', type: 'Other', color: 'green' }
+				{ eventDetailsText: 'China Industrial Securities International Financial Group Limited', type: 'Other', color: 'red' },
+				{ eventDetailsText: 'China Industrial Securities International Financial Group Limited', type: 'Other', color: 'red' },
+				{ eventDetailsText: 'China Industrial Securities International Financial Group Limited', type: 'Other', color: 'red' },
+				{ eventDetailsText: 'China Industrial Securities International Financial Group Limited', type: 'Other', color: 'red' },
+				{ eventDetailsText: 'China Industrial Securities International Financial Group Limited', type: 'Other', color: 'red' }
 			];
 
 
