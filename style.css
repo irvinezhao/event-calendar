@@ -7,6 +7,7 @@
 }
 
 #calendar {
+  font-family: FSElliotPro-Bold;
   position: relative;
   -webkit-transform: translate3d(0, 0, 0);
   -moz-transform: translate3d(0, 0, 0);
@@ -79,7 +80,6 @@
 }
 
 .month {
-  /*overflow: hidden;*/
   opacity: 0;
 }
 
@@ -213,11 +213,12 @@
   border: 1px solid #10416C;
   display: block;
 }
+
 .details.in {
-	-webkit-animation: fadeIn .5s ease both;
-	-moz-animation: fadeIn .5s ease both;
-	animation: fadeIn .5s ease both;
-  }
+  -webkit-animation: fadeIn .5s ease both;
+  -moz-animation: fadeIn .5s ease both;
+  animation: fadeIn .5s ease both;
+}
 
 .arrow {
   position: absolute;
@@ -254,14 +255,14 @@
 }
 
 .event-caregory-text {
-	text-transform: uppercase;
-	color: white;
-	font-size: 12px;
-	padding: 0 10px;
+  text-transform: uppercase;
+  color: white;
+  font-size: 12px;
+  padding: 0 10px;
 }
 
 .event-details-text {
-	margin-top: 10px;
+  margin-top: 10px;
 }
 
 .event span {

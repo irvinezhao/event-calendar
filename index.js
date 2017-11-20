@@ -73,7 +73,7 @@
 					this.oldMonth = this.month;
 					this.oldMonth.className = 'month out ' + (self.next ? 'next' : 'prev');
 					this.oldMonth.addEventListener('webkitAnimationEnd', function () {
-						self.oldMonth.parentNode.removeChild(self.oldMonth);
+						self.oldMonth && self.oldMonth.parentNode.removeChild(self.oldMonth);
 						self.month = createElement('div', 'month');
 						self.backFill();
 						self.currentMonth();
@@ -144,8 +144,10 @@
 						self.openDay(this);
 						showEventDetails = true
 					} else {
-						let calendarEl = document.getElementById('calendar')
-						calendarEl.removeChild(document.querySelector('.details'))
+						if(document.querySelector('.details')) {
+							let calendarEl = document.getElementById('calendar')
+							calendarEl.removeChild(document.querySelector('.details'))
+						}
 						showEventDetails = false
 					}
 					oldDayEl = this
